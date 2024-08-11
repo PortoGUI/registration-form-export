@@ -4,11 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as XLSX from 'xlsx';
 
 const App: React.FC = () => {
-  const containerStyle = {
-    minWidth: '100vw',
-    minHeight: '100vh',
-    padding: '20px'
-  };
 
   // Estado para os campos de informações gerais
   const [name, setName] = useState<string>('');
@@ -165,7 +160,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container" style={containerStyle}>
+    <div className="container" style={{minWidth: '100vw', minHeight: '100vh', padding: '20px', overflowY: 'hidden', maxWidth: '100vw'}}>
       <h1>Ficha Cadastral</h1>
       <form onSubmit={handleSubmit}>
         <h3>Informações Gerais</h3>
