@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import InputMask from 'react-input-mask';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import '../src/customize.scss';
 import * as XLSX from 'xlsx';
 
 const App: React.FC = () => {
@@ -102,60 +103,59 @@ const App: React.FC = () => {
     event.preventDefault();
     if (commercialReferences?.length > 4) {
 
-    const generalInfoData = [
-      ['Nome / Razão Social', name],
-      ['Nome Fantasia', fantasyName],
-      ['Data de Fundação', foundationDate],
-      ['Endereço', address],
-      ['Número', number],
-      ['Complemento', complement],
-      ['Bairro', district],
-      ['CEP', zipCode],
-      ['Cidade', city],
-      ['Estado', state],
-      ['CPF / CNPJ', cpfCnpj],
-      ['Inscrição Estadual', stateRegistration],
-      ['Telefone', phone],
-      ['Celular', mobile],
-      ['Email', email],
-    ];
+      const generalInfoData = [
+        ['Nome / Razão Social', name],
+        ['Nome Fantasia', fantasyName],
+        ['Data de Fundação', foundationDate],
+        ['Endereço', address],
+        ['Número', number],
+        ['Complemento', complement],
+        ['Bairro', district],
+        ['CEP', zipCode],
+        ['Cidade', city],
+        ['Estado', state],
+        ['CPF / CNPJ', cpfCnpj],
+        ['Inscrição Estadual', stateRegistration],
+        ['Telefone', phone],
+        ['Celular', mobile],
+        ['Email', email],
+      ];
 
-    const partnersData = partners.map((partner) => ({
-      'Nome Completo': partner.name,
-      'Cargo / Função': partner.role,
-      'Participação (%)': partner.participation,
-      'CPF': partner.cpf,
-    }));
+      const partnersData = partners.map((partner) => ({
+        'Nome Completo': partner.name,
+        'Cargo / Função': partner.role,
+        'Participação (%)': partner.participation,
+        'CPF': partner.cpf,
+      }));
 
-    const commercialReferencesData = commercialReferences.map((reference) => ({
-      'Fornecedor': reference.supplier,
-      'Cidade': reference.city,
-      'Estado': reference.state,
-    }));
+      const commercialReferencesData = commercialReferences.map((reference) => ({
+        'Fornecedor': reference.supplier,
+        'Cidade': reference.city,
+        'Estado': reference.state,
+      }));
 
-    const workbook = XLSX.utils.book_new();
+      const workbook = XLSX.utils.book_new();
 
-    // Adicionando a planilha de Informações Gerais
-    const wsGeneralInfo = XLSX.utils.aoa_to_sheet(generalInfoData);
-    XLSX.utils.book_append_sheet(workbook, wsGeneralInfo, 'Informacoes_Gerais');  // Nome da planilha sem caracteres proibidos
+      // Adicionando a planilha de Informações Gerais
+      const wsGeneralInfo = XLSX.utils.aoa_to_sheet(generalInfoData);
+      XLSX.utils.book_append_sheet(workbook, wsGeneralInfo, 'Informacoes_Gerais');  // Nome da planilha sem caracteres proibidos
 
-    // Adicionando a planilha de Sócios
-    const wsPartners = XLSX.utils.json_to_sheet(partnersData);
-    XLSX.utils.book_append_sheet(workbook, wsPartners, 'Socios');  // Nome da planilha sem caracteres proibidos
+      // Adicionando a planilha de Sócios
+      const wsPartners = XLSX.utils.json_to_sheet(partnersData);
+      XLSX.utils.book_append_sheet(workbook, wsPartners, 'Socios');  // Nome da planilha sem caracteres proibidos
 
-    // Adicionando a planilha de Referências Comerciais
-    const wsCommercialReferences = XLSX.utils.json_to_sheet(commercialReferencesData);
-    XLSX.utils.book_append_sheet(workbook, wsCommercialReferences, 'Referencias_Comerciais');  // Nome da planilha sem caracteres proibidos
+      // Adicionando a planilha de Referências Comerciais
+      const wsCommercialReferences = XLSX.utils.json_to_sheet(commercialReferencesData);
+      XLSX.utils.book_append_sheet(workbook, wsCommercialReferences, 'Referencias_Comerciais');  // Nome da planilha sem caracteres proibidos
 
-    // Gerando o arquivo Excel com o nome "Ficha + Nome Fantasia"
-    const fileName = `Ficha_${fantasyName.replace(/[\\/:*?"<>|]/g, '')}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+      // Gerando o arquivo Excel com o nome "Ficha + Nome Fantasia"
+      const fileName = `Ficha_${fantasyName.replace(/[\\/:*?"<>|]/g, '')}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
 
-    // Limpar o formulário após a exportação
-    clearForm();
-    }
-    else {
-      alert('Por favor incluir no mínimo 5 "REFERENCIAS COMERCIAIS"')
+      // Limpar o formulário após a exportação
+      clearForm();
+    } else {
+      alert('Por favor incluir no mínimo 5 "REFERENCIAS COMERCIAIS"');
     }
   };
 
@@ -165,112 +165,117 @@ const App: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <h3>Informações Gerais</h3>
         <div className="row">
-          <div className="col-md-6 mb-3">
-            <label htmlFor="name" className="form-label">Nome / Razão Social</label>
-            <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} required/>
+          <div className="form-floating col-md-6 mb-3">
+            <input type="text" className="form-control" id="name" placeholder="" value={name} onChange={(e) => setName(e.target.value)} required/>
+            <label htmlFor="name">Nome / Razão Social</label>
           </div>
-          <div className="col-md-6 mb-3">
+          <div className="form-floating col-md-6 mb-3">
+            <input type="text" className="form-control form-control-sm" id="fantasyName" placeholder="" value={fantasyName} onChange={(e) => setFantasyName(e.target.value)} required/>
             <label htmlFor="fantasyName" className="form-label">Nome Fantasia</label>
-            <input type="text" className="form-control" id="fantasyName" value={fantasyName} onChange={(e) => setFantasyName(e.target.value)} required/>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 mb-3">
+          <div className="form-floating col-md-3 mb-3">
+            <input type="date" className="form-control form-control-sm" id="foundationDate" placeholder="" value={foundationDate} onChange={(e) => setFoundationDate(e.target.value)} required/>
             <label htmlFor="foundationDate" className="form-label">Data de Fundação</label>
-            <input type="date" className="form-control" id="foundationDate" value={foundationDate} onChange={(e) => setFoundationDate(e.target.value)} required/>
           </div>
-          <div className="col-md-9 mb-3">
+          <div className="form-floating col-md-9 mb-3">
+            <input type="text" className="form-control form-control-sm" id="address" placeholder="" value={address} onChange={(e) => setAddress(e.target.value)} required/>
             <label htmlFor="address" className="form-label">Endereço</label>
-            <input type="text" className="form-control" id="address" value={address} onChange={(e) => setAddress(e.target.value)} required/>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 mb-3">
+          <div className="form-floating col-md-3 mb-3">
+            <input type="text" className="form-control form-control-sm" id="number" placeholder="" value={number} onChange={(e) => setNumber(e.target.value)} required/>
             <label htmlFor="number" className="form-label">Número</label>
-            <input type="text" className="form-control" id="number" value={number} onChange={(e) => setNumber(e.target.value)} required/>
           </div>
-          <div className="col-md-3 mb-3">
+          <div className="form-floating col-md-3 mb-3">
+            <input type="text" className="form-control form-control-sm" id="complement" placeholder="" value={complement} onChange={(e) => setComplement(e.target.value)}/>
             <label htmlFor="complement" className="form-label">Complemento</label>
-            <input type="text" className="form-control" id="complement" value={complement} onChange={(e) => setComplement(e.target.value)}/>
           </div>
-          <div className="col-md-6 mb-3">
+          <div className="form-floating col-md-6 mb-3">
+            <input type="text" className="form-control form-control-sm" id="district" placeholder="" value={district} onChange={(e) => setDistrict(e.target.value)} required/>
             <label htmlFor="district" className="form-label">Bairro</label>
-            <input type="text" className="form-control" id="district" value={district} onChange={(e) => setDistrict(e.target.value)} required/>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-4 mb-3">
-            <label htmlFor="zipCode" className="form-label">CEP</label>
+          <div className="form-floating col-md-4 mb-3">
             <InputMask
               mask="99999-999"
-              className="form-control"
+              className="form-control form-control-sm"
               id="zipCode"
+              placeholder=""
               value={zipCode}
               onChange={(e) => setZipCode(e.target.value)}
               required
             />
+            <label htmlFor="zipCode" className="form-label">CEP</label>
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="form-floating col-md-4 mb-3">
+            <input type="text" className="form-control form-control-sm" id="city" placeholder="" value={city} onChange={(e) => setCity(e.target.value)} required/>
             <label htmlFor="city" className="form-label">Cidade</label>
-            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} required/>
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="form-floating col-md-4 mb-3">
+            <input type="text" className="form-control form-control-sm" id="state" placeholder="" value={state} onChange={(e) => setState(e.target.value)} required/>
             <label htmlFor="state" className="form-label">Estado</label>
-            <input type="text" className="form-control" id="state" value={state} onChange={(e) => setState(e.target.value)} required/>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 mb-3">
-            <label htmlFor="cpfCnpj" className="form-label">CPF / CNPJ</label>
+          <div className="form-floating col-md-6 mb-3">
             <InputMask
-              mask={""}
-              className="form-control"
+              mask={''}
+              className="form-control form-control-sm"
               id="cpfCnpj"
+              placeholder=""
               value={cpfCnpj}
               onChange={handleCpfCnpjChange}
               required
             />
+            <label htmlFor="cpfCnpj" className="form-label">CPF / CNPJ</label>
           </div>
-          <div className="col-md-6 mb-3">
+          <div className="form-floating col-md-6 mb-3">
+            <input type="text" className="form-control form-control-sm" id="stateRegistration" placeholder="" value={stateRegistration} onChange={(e) => setStateRegistration(e.target.value)}/>
             <label htmlFor="stateRegistration" className="form-label">Inscrição Estadual</label>
-            <input type="text" className="form-control" id="stateRegistration" value={stateRegistration} onChange={(e) => setStateRegistration(e.target.value)}/>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 mb-3">
-            <label htmlFor="phone" className="form-label">Telefone</label>
+          <div className="form-floating col-md-6 mb-3">
             <InputMask
               mask="(99) 9999-9999"
-              className="form-control"
+              className="form-control form-control-sm"
               id="phone"
+              placeholder=""
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
+            <label htmlFor="phone" className="form-label">Telefone</label>
           </div>
-          <div className="col-md-6 mb-3">
-            <label htmlFor="mobile" className="form-label">Celular</label>
+          <div className="form-floating col-md-6 mb-3">
             <InputMask
               mask="(99) 9 9999-9999"
-              className="form-control"
+              className="form-control form-control-sm"
               id="mobile"
+              placeholder=""
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               required
             />
+            <label htmlFor="mobile" className="form-label">Celular</label>
           </div>
         </div>
-        <div className="mb-3">
+        <div className="form-floating mb-3">
+          <input type="email" className="form-control form-control-sm" id="email" placeholder="" value={email} onChange={(e) => setEmail(e.target.value)} required/>
           <label htmlFor="email" className="form-label">Email</label>
-          <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
         </div>
         <h3>Sócios / Administradores</h3>
         {partners.map((partner, index) => (
           <div key={index} className="row">
-            <div className="col-md-3 mb-3">
-              <label className="form-label">Nome Completo</label>
+            <div className="form-floating col-md-3 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
+                placeholder=""
+                id="partnerName"
                 value={partner.name}
                 onChange={(e) =>
                   setPartners(
@@ -281,13 +286,15 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="partnerName" className="form-label">Nome Completo</label>
             </div>
-            <div className="col-md-3 mb-3">
-              <label className="form-label">Cargo / Função</label>
+            <div className="form-floating col-md-3 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={partner.role}
+                id="role"
+                placeholder=""
                 onChange={(e) =>
                   setPartners(
                     partners.map((p, i) =>
@@ -297,13 +304,15 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="role" className="form-label">Cargo / Função</label>
             </div>
-            <div className="col-md-2 mb-3">
-              <label className="form-label">Participação (%)</label>
+            <div className="form-floating col-md-2 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={partner.participation}
+                id="partcipation"
+                placeholder=""
                 onChange={(e) =>
                   setPartners(
                     partners.map((p, i) =>
@@ -313,13 +322,14 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="partcipation" className="form-label">Participação (%)</label>
             </div>
-            <div className="col-md-3 mb-3">
-              <label className="form-label">CPF</label>
+            <div className="form-floating col-md-3 mb-3">
               <InputMask
                 mask="999.999.999-99"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={partner.cpf}
+                id="cpf" placeholder=""
                 onChange={(e) =>
                   setPartners(
                     partners.map((p, i) =>
@@ -329,10 +339,11 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="cpf" className="form-label">CPF</label>
             </div>
             <div className="col-md-1 mb-3 d-flex justify-content-end align-items-end">
               <button type="button" className="btn btn-danger" onClick={() => handleRemovePartner(index)}>
-                Excluir
+                <i className="fas fa-trash"></i>
               </button>
             </div>
           </div>
@@ -340,7 +351,7 @@ const App: React.FC = () => {
         <div className="row">
           <div className="col">
             <button type="button" className="btn btn-success mb-3 float-end" onClick={handleAddPartner}>
-              Novo
+              <i className="fas fa-plus"></i>
             </button>
           </div>
         </div>
@@ -348,12 +359,12 @@ const App: React.FC = () => {
         <h3>Referências Comerciais</h3>
         {commercialReferences.map((reference, index) => (
           <div key={index} className="row">
-            <div className="col-md-4 mb-3">
-              <label className="form-label">Fornecedor</label>
+            <div className="form-floating col-md-4 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={reference.supplier}
+                id="supplier" placeholder=""
                 onChange={(e) =>
                   setCommercialReferences(
                     commercialReferences.map((r, i) =>
@@ -363,13 +374,14 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="supplier" className="form-label">Fornecedor</label>
             </div>
-            <div className="col-md-4 mb-3">
-              <label className="form-label">Cidade</label>
+            <div className="form-floating col-md-4 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={reference.city}
+                id="city" placeholder=""
                 onChange={(e) =>
                   setCommercialReferences(
                     commercialReferences.map((r, i) =>
@@ -379,13 +391,15 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="city" className="form-label">Cidade</label>
             </div>
-            <div className="col-md-4 mb-3">
-              <label className="form-label">Estado</label>
+            <div className="form-floating col-md-3 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 value={reference.state}
+                id="state"
+                placeholder=""
                 onChange={(e) =>
                   setCommercialReferences(
                     commercialReferences.map((r, i) =>
@@ -395,10 +409,11 @@ const App: React.FC = () => {
                 }
                 required
               />
+              <label htmlFor="state" className="form-label">Estado</label>
             </div>
-            <div className="col-md-12 mb-3">
+            <div className="col-md-1 mb-3 d-flex justify-content-end align-items-end">
               <button type="button" className="btn btn-danger float-end" onClick={() => handleRemoveReference(index)}>
-                Excluir
+                <i className="fas fa-trash"></i>
               </button>
             </div>
           </div>
@@ -406,7 +421,7 @@ const App: React.FC = () => {
         <div className="row">
           <div className="col">
             <button type="button" className="btn btn-success mb-3 float-end" onClick={handleAddReference}>
-              Novo
+              <i className="fas fa-plus"></i>
             </button>
           </div>
         </div>
@@ -414,7 +429,7 @@ const App: React.FC = () => {
         <div className="row">
           <div className="col">
             <button type="submit" className="btn btn-primary float-end">
-              Enviar e Exportar para Excel
+              <i className="fas fa-file-excel"></i> Exportar
             </button>
           </div>
         </div>

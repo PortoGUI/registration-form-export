@@ -1,0 +1,37 @@
+// src/custom.scss
+
+// Substitua a variável de cor primária antes de importar o Bootstrap
+$primary: #ff5000; // Laranja
+
+// Importe o Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+
+.form-control {
+  background-color: transparent !important;
+  color: #f1f1f1 !important;
+  border-bottom: solid 2px #f1f1f1;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding-bottom: 0 !important;
+
+  & :focus, :active {
+    border-bottom: solid 3px red !important;
+  }
+}
+
+.form-floating label {
+  padding-bottom: 0 !important;
+  color: #f1f1f1 !important;
+
+  &::after {
+    background-color: transparent !important;
+  }
+}
+
+.btn-primary {
+  color: #f1f1f1 !important;
+}
