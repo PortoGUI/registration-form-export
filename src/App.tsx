@@ -161,7 +161,10 @@ const App: React.FC = () => {
 
   return (
     <div className="container" style={{minWidth: '100vw', minHeight: '100vh', padding: '20px', overflowY: 'hidden', maxWidth: '100vw'}}>
+    <div className="d-flex align-items-center justify-content-between w-100">
       <h1>Ficha Cadastral</h1>
+      <img style={{height: '100px'}} src="./trace.svg" alt="logo" />
+    </div>
       <form onSubmit={handleSubmit}>
         <h3>Informações Gerais</h3>
         <div className="row">
