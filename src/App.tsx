@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [partners, setPartners] = useState<{ name: string; role: string; participation: string; cpf: string }[]>([]);
 
   // Estado para os campos de referências comerciais
-  const [commercialReferences, setCommercialReferences] = useState<{ supplier: string; city: string; state: string }[]>([]);
+  const [commercialReferences, setCommercialReferences] = useState<{ supplier: string; city: string; state: string; mobile: string; phone: string }[]>([]);
 
   // Funções para adicionar novos sócios e referências
   const handleAddPartner = () => {
@@ -35,7 +35,7 @@ const App: React.FC = () => {
   };
 
   const handleAddReference = () => {
-    setCommercialReferences([...commercialReferences, {supplier: '', city: '', state: ''}]);
+    setCommercialReferences([...commercialReferences, {supplier: '', city: '', state: '', mobile: '', phone: ''}]);
   };
 
   // Funções para remover sócios e referências
@@ -101,8 +101,6 @@ const App: React.FC = () => {
   // Função para submissão do formulário
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (commercialReferences?.length > 4) {
-
       const generalInfoData = [
         ['Nome / Razão Social', name],
         ['Nome Fantasia', fantasyName],
@@ -132,6 +130,8 @@ const App: React.FC = () => {
         'Fornecedor': reference.supplier,
         'Cidade': reference.city,
         'Estado': reference.state,
+        'Celular': reference.mobile,
+        'Telefone': reference.phone,
       }));
 
       const workbook = XLSX.utils.book_new();
@@ -154,9 +154,6 @@ const App: React.FC = () => {
 
       // Limpar o formulário após a exportação
       clearForm();
-    } else {
-      alert('Por favor incluir no mínimo 5 "REFERENCIAS COMERCIAIS"');
-    }
   };
 
   return (
@@ -362,7 +359,7 @@ const App: React.FC = () => {
         <h3>Referências Comerciais</h3>
         {commercialReferences.map((reference, index) => (
           <div key={index} className="row">
-            <div className="form-floating col-md-4 mb-3">
+            <div className="form-floating col-md-3 mb-3">
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -379,7 +376,7 @@ const App: React.FC = () => {
               />
               <label htmlFor="supplier" className="form-label">Fornecedor</label>
             </div>
-            <div className="form-floating col-md-4 mb-3">
+            <div className="form-floating col-md-2 mb-3">
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -396,7 +393,7 @@ const App: React.FC = () => {
               />
               <label htmlFor="city" className="form-label">Cidade</label>
             </div>
-            <div className="form-floating col-md-3 mb-3">
+            <div className="form-floating col-md-2 mb-3">
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -414,6 +411,42 @@ const App: React.FC = () => {
               />
               <label htmlFor="state" className="form-label">Estado</label>
             </div>
+            <div className="form-floating col-md-2 mb-3">
+            <InputMask
+              mask="(99) 9 9999-9999"
+              className="form-control form-control-sm"
+              id="referenceMobile"
+              placeholder=""
+              value={reference.mobile}
+              onChange={(e) =>
+                setCommercialReferences(
+                  commercialReferences.map((r, i) =>
+                    i === index ? {...r, mobile: e.target.value} : r
+                  )
+                )
+              }
+              required
+            />
+            <label htmlFor="referenceMobile" className="form-label">Celular</label>
+          </div>
+          <div className="form-floating col-md-2 mb-3">
+            <InputMask
+              mask="(99) 9999-9999"
+              className="form-control form-control-sm"
+              id="referencePhone"
+              placeholder=""
+              value={reference.phone}
+              onChange={(e) =>
+                setCommercialReferences(
+                  commercialReferences.map((r, i) =>
+                    i === index ? {...r, phone: e.target.value} : r
+                  )
+                )
+              }
+              required
+            />
+            <label htmlFor="referencePhone" className="form-label">Telefone</label>
+          </div>
             <div className="col-md-1 mb-3 d-flex justify-content-end align-items-end">
               <button type="button" className="btn btn-danger float-end" onClick={() => handleRemoveReference(index)}>
                 <i className="fas fa-trash"></i>
